@@ -1,4 +1,5 @@
 'use client'
+import { navigationKeys } from '@/utils/constants'
 import Link from 'next/link'
 import { JSX } from 'react'
 
@@ -17,13 +18,13 @@ export default function Home(): JSX.Element {
           </p>
           <div className="flex gap-3">
             <Link
-              href="/prompt-analyzer"
+              href={navigationKeys.prompt_analyser}
               className="px-4 py-2 rounded bg-blue-600 text-white"
             >
               Try Prompt Analyzer
             </Link>
             <Link
-              href="/consume-game"
+              href={navigationKeys.consume_game}
               className="px-4 py-2 rounded border dark:border-gray-700"
             >
               Play Consume Game
