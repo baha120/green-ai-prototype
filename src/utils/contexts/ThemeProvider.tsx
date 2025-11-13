@@ -13,7 +13,7 @@ import {
 type Theme = 'light' | 'dark'
 
 type ThemeContextValue = {
-  theme: Theme
+  theme: Theme | null
   setTheme: (theme: Theme) => void
   toggleTheme: () => void
 }
@@ -36,25 +36,21 @@ export function useThemeContext() {
 }
 
 export default function ThemeProvider({ children }: { children: ReactNode }) {
-  const [theme, setThemeState] = useState<Theme>('dark')
-  const [isHydrated, setIsHydrated] = useState(false)
+  const [theme, setThemeState] = useState<Theme | null>(null)
 
   useEffect(() => {
     if (typeof window === 'undefined') return
     const stored = window.localStorage.getItem(STORAGE_KEY) as Theme | null
-    if (stored === 'light' || stored === 'dark') {
-      setThemeState(stored)
-    }
-    setIsHydrated(true)
+    setThemeState(stored || 'light')
   }, [])
 
   useEffect(() => {
-    if (!isHydrated) return
+    if (!theme) return
     applyTheme(theme)
     if (typeof window !== 'undefined') {
       window.localStorage.setItem(STORAGE_KEY, theme)
     }
-  }, [theme, isHydrated])
+  }, [theme])
 
   const setTheme = useCallback((value: Theme) => {
     setThemeState(value)
@@ -72,6 +68,8 @@ export default function ThemeProvider({ children }: { children: ReactNode }) {
     }),
     [theme, setTheme, toggleTheme]
   )
+
+  if (!theme) return null
 
   return (
     <ThemeContext.Provider value={contextValue}>
