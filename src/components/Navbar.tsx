@@ -39,7 +39,7 @@ export default function Navbar() {
           <button
             onClick={toggleTheme}
             aria-label="Toggle theme"
-            className="px-3 py-2 rounded border dark:border-gray-700"
+            className="px-3 py-2 rounded"
           >
             {theme === 'dark' ? '☀️ Light' : '🌙 Dark'}
           </button>

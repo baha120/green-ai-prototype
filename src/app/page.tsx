@@ -19,13 +19,13 @@ export default function Home(): JSX.Element {
           <div className="flex gap-3">
             <Link
               href={navigationKeys.prompt_analyser}
-              className="px-4 py-2 rounded bg-blue-600 text-white"
+              className="px-4 py-2 rounded bg-blue-600 hover:bg-blue-700 text-white"
             >
               Try Prompt Analyzer
             </Link>
             <Link
               href={navigationKeys.consume_game}
-              className="px-4 py-2 rounded border dark:border-gray-700"
+              className="px-4 py-2 rounded hover:underline"
             >
               Play Consume Game
             </Link>
