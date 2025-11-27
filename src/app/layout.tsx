@@ -31,9 +31,13 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <ThemeProvider>
-          <div className="min-h-screen bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors">
+          <div className="min-h-screen flex flex-col bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors">
             <Navbar />
-            <main className="container-max py-8 h-screen">{children}</main>
+
+            <main className="container-max flex-1 py-8">
+              {children}
+            </main>
+
             <Footer />
           </div>
         </ThemeProvider>
@@ -41,3 +45,4 @@ export default function RootLayout({
     </html>
   )
 }
+
