@@ -1,6 +1,6 @@
 'use client'
-import { navigationKeys } from '@/utils/constants'
-import Link from 'next/link'
+import LinkButton from '@/components/LinkButton'
+import { LinkButtonVariants, navigationKeys } from '@/utils/constants'
 import { JSX } from 'react'
 
 export default function Home(): JSX.Element {
@@ -17,18 +17,16 @@ export default function Home(): JSX.Element {
             student-produced media.
           </p>
           <div className="flex gap-3">
-            <Link
+            <LinkButton
+              type={LinkButtonVariants.filled}
+              text="Try Prompt Analyzer"
               href={navigationKeys.prompt_analyser}
-              className="px-4 py-2 rounded bg-blue-600 hover:bg-blue-700 text-white"
-            >
-              Try Prompt Analyzer
-            </Link>
-            <Link
+            />
+            <LinkButton
+              type={LinkButtonVariants.blank}
+              text="Play Consume Game"
               href={navigationKeys.consume_game}
-              className="px-4 py-2 rounded hover:underline"
-            >
-              Play Consume Game
-            </Link>
+            />
           </div>
         </div>
         <div>

@@ -1,8 +1,9 @@
 'use client'
-import { navigationKeys } from '@/utils/constants'
+import { LinkButtonVariants, navigationKeys } from '@/utils/constants'
 import { useThemeContext } from '@/utils/contexts/ThemeProvider'
 import Link from 'next/link'
 import React from 'react'
+import LinkButton from './LinkButton'
 
 export default function Navbar() {
   const { theme, toggleTheme } = useThemeContext()
@@ -15,24 +16,21 @@ export default function Navbar() {
             EASY_AI
           </Link>
           <nav className="hidden md:flex gap-3">
-            <Link
+            <LinkButton
+              type={LinkButtonVariants.nav}
+              text="Consume Game"
               href={navigationKeys.consume_game}
-              className="px-3 py-2 rounded hover:bg-gray-100 dark:hover:bg-gray-700"
-            >
-              Consume Game
-            </Link>
-            <Link
+            />
+            <LinkButton
+              type={LinkButtonVariants.nav}
+              text="Prompt Analyzer"
               href={navigationKeys.prompt_analyser}
-              className="px-3 py-2 rounded hover:bg-gray-100 dark:hover:bg-gray-700"
-            >
-              Prompt Analyzer
-            </Link>
-            <Link
+            />
+            <LinkButton
+              type={LinkButtonVariants.nav}
+              text="About"
               href={navigationKeys.about}
-              className="px-3 py-2 rounded hover:bg-gray-100 dark:hover:bg-gray-700"
-            >
-              About
-            </Link>
+            />
           </nav>
         </div>
         <div className="flex items-center gap-3">
