@@ -1,5 +1,8 @@
 'use client'
+import useAnalysePrompt from '@/utils/hooks/useAnaylsePrompt'
 import React, { useState } from 'react'
+import LoadingSpinner from './LoadingSpinner'
+import { api_response_type } from '@/utils/type/api_response'
 
 type Score = {
   clarity: number
@@ -66,16 +69,15 @@ function computeScores(prompt: string): { score: Score; tips: string[] } {
 }
 
 export default function PromptAnalyzer() {
+  const { isLoading, analysePrompt } = useAnalysePrompt()
   const [prompt, setPrompt] = useState('')
-  const [result, setResult] = useState<{ score: Score; tips: string[] } | null>(
-    null
-  )
+  const [result, setResult] = useState<api_response_type | undefined>()
   const [points, setPoints] = useState(0)
 
-  function analyze() {
+  async function analyze() {
+    const apiRes = await analysePrompt(prompt)
+    setResult(apiRes)
     const res = computeScores(prompt)
-    setResult(res)
-    // gamification: award points for concise & sustainable prompts
     const gained = Math.round(
       (res.score.clarity + res.score.sustainability + res.score.ethics) / 30
     )
@@ -88,13 +90,14 @@ export default function PromptAnalyzer() {
         value={prompt}
         onChange={(e) => setPrompt(e.target.value)}
         rows={6}
-        className="w-full p-3 rounded border dark:border-gray-700 bg-white dark:bg-gray-900"
+        className="w-full p-3 rounded border dark:border-gray-700 bg-white dark:bg-gray-900 outline-none"
         placeholder="Enter your AI prompt here..."
       />
       <div className="flex gap-2">
         <button
           onClick={analyze}
-          className="px-4 py-2 rounded bg-blue-600 text-white"
+          className="px-4 py-2 rounded bg-blue-600 text-white disabled:bg-gray-600"
+          disabled={prompt.length === 0}
         >
           Analyze
         </button>
@@ -102,11 +105,14 @@ export default function PromptAnalyzer() {
           Points: {points}
         </div>
       </div>
-
-      {result && (
+      {isLoading && <LoadingSpinner />}
+      {!isLoading && result && (
         <div className="mt-4 grid md:grid-cols-3 gap-4">
           <div className="p-4 rounded border dark:border-gray-700 bg-gray-50 dark:bg-gray-800">
-            <h4 className="font-semibold">Clarity & Specificity</h4>
+            {result.Co2 && <p>Co2 Ausstoß: {result.Co2}</p>}
+            {result.Water && <p>Wasserverbrauch: {result.Water}</p>}
+            {result.Tokens && <p>Tokenmenge: {result.Tokens}</p>}
+            {/* <h4 className="font-semibold">Clarity & Specificity</h4>
             <p className="text-sm mt-2">Score: {result.score.clarity}%</p>
             <div className="h-2 bg-gray-200 dark:bg-gray-700 mt-2 rounded">
               <div
@@ -137,18 +143,14 @@ export default function PromptAnalyzer() {
                 style={{ width: `${result.score.ethics}%` }}
                 className="h-2 bg-red-500 rounded"
               ></div>
-            </div>
+            </div>*/}
           </div>
 
           <div className="md:col-span-3 p-4 rounded border dark:border-gray-700 bg-gray-50 dark:bg-gray-800">
             <h4 className="font-semibold">Improvement Tips</h4>
-            <ul className="list-disc pl-5 mt-2">
-              {result.tips.length === 0 ? (
-                <li>Looks good — concise and responsible.</li>
-              ) : (
-                result.tips.map((t, i) => <li key={i}>{t}</li>)
-              )}
-            </ul>
+            <div className="list-disc pl-5 mt-2">
+              {result.Improvement && <p>{result.Improvement}</p>}
+            </div>
           </div>
         </div>
       )}
