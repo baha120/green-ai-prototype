@@ -4,6 +4,7 @@ import './globals.css'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 import ThemeProvider from '@/utils/contexts/ThemeProvider'
+import ConsumeGameProvider from '@/utils/contexts/ConsumeGameProvider'
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -31,18 +32,17 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <ThemeProvider>
-          <div className="min-h-screen flex flex-col bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors">
-            <Navbar />
+          <ConsumeGameProvider>
+            <div className="min-h-screen flex flex-col bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors">
+              <Navbar />
 
-            <main className="container-max flex-1 py-8">
-              {children}
-            </main>
+              <main className="container-max flex-1 py-8">{children}</main>
 
-            <Footer />
-          </div>
+              <Footer />
+            </div>
+          </ConsumeGameProvider>
         </ThemeProvider>
       </body>
     </html>
   )
 }
-
