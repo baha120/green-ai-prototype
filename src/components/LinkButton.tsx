@@ -8,6 +8,7 @@ interface LinkButtonType {
   type: LinkButtonVariants
   text: string
   className?: string
+  onClick?: () => void
 }
 
 export default function LinkButton({
@@ -15,6 +16,7 @@ export default function LinkButton({
   type,
   text,
   className,
+  onClick,
 }: LinkButtonType): JSX.Element {
   function returnStylingFromType(type: LinkButtonVariants): string {
     switch (type) {
@@ -27,7 +29,11 @@ export default function LinkButton({
     }
   }
   return (
-    <Link href={href} className={cn(returnStylingFromType(type), className)}>
+    <Link
+      onClick={onClick}
+      href={href}
+      className={cn(returnStylingFromType(type), className)}
+    >
       {text}
     </Link>
   )
